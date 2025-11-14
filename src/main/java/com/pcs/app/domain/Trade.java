@@ -16,7 +16,7 @@ import java.sql.Timestamp;
 public class Trade {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    Integer tradeId;
+    Integer id;
     String account;
     String type;
     Double buyQuantity;

@@ -1,6 +1,8 @@
 package com.pcs.app.controllers;
 
 import com.pcs.app.domain.RuleName;
+import com.pcs.app.service.RuleNameService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -13,12 +15,13 @@ import jakarta.validation.Valid;
 
 @Controller
 public class RuleNameController {
-    // TODO: Inject RuleName service
+    @Autowired
+    private RuleNameService service;
 
     @RequestMapping("/ruleName/list")
     public String home(Model model)
     {
-        // TODO: find all RuleName, add to model
+        model.addAttribute("ruleNames", service.getAllRuleNames());
         return "ruleName/list";
     }
 
@@ -29,26 +32,49 @@ public class RuleNameController {
 
     @PostMapping("/ruleName/validate")
     public String validate(@Valid RuleName ruleName, BindingResult result, Model model) {
-        // TODO: check data valid and save to db, after saving return RuleName list
+        if (!result.hasErrors()) {
+            try {
+                service.createRuleName(ruleName);
+                return "redirect:/ruleName/list";
+            }
+            catch (Exception e) {
+                model.addAttribute("error", e.getMessage());
+            }
+        }
+        model.addAttribute("ruleName", ruleName);
         return "ruleName/add";
     }
 
     @GetMapping("/ruleName/update/{id}")
     public String showUpdateForm(@PathVariable("id") Integer id, Model model) {
-        // TODO: get RuleName by Id and to model then show to the form
+        model.addAttribute("ruleName", service.getRuleNameById(id));
         return "ruleName/update";
     }
 
     @PostMapping("/ruleName/update/{id}")
     public String updateRuleName(@PathVariable("id") Integer id, @Valid RuleName ruleName,
                              BindingResult result, Model model) {
-        // TODO: check required fields, if valid call service to update RuleName and return RuleName list
+        if (!result.hasErrors()) {
+            try {
+                ruleName.setId(id);
+                service.updateRuleName(ruleName);
+                return "redirect:/ruleName/list";
+            }
+            catch (Exception e) {
+                model.addAttribute("error", e.getMessage());
+            }
+        }
+        model.addAttribute("ruleName", ruleName);
         return "redirect:/ruleName/list";
     }
 
     @GetMapping("/ruleName/delete/{id}")
     public String deleteRuleName(@PathVariable("id") Integer id, Model model) {
-        // TODO: Find RuleName by Id and delete the RuleName, return to Rule list
-        return "redirect:/ruleName/list";
+        try {
+            service.deleteRuleName(id);
+        }
+        catch (Exception e) {
+            model.addAttribute("error", e.getMessage());
+        }        return "redirect:/ruleName/list";
     }
 }

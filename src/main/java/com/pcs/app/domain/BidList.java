@@ -3,6 +3,7 @@ package com.pcs.app.domain;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Digits;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Positive;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -18,9 +19,12 @@ import java.sql.Timestamp;
 public class BidList {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer BidListId;
+    private Integer id;
+    @NotBlank
     private String account;
+    @NotBlank
     private String type;
+    @Positive
     private Double bidQuantity;
     private Double askQuantity;
     private Double bid;

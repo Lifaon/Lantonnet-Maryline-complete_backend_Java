@@ -1,6 +1,8 @@
 package com.pcs.app.controllers;
 
 import com.pcs.app.domain.CurvePoint;
+import com.pcs.app.service.CurvePointService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -13,12 +15,13 @@ import jakarta.validation.Valid;
 
 @Controller
 public class CurveController {
-    // TODO: Inject Curve Point service
+    @Autowired
+    private CurvePointService service;
 
     @RequestMapping("/curvePoint/list")
     public String home(Model model)
     {
-        // TODO: find all Curve Point, add to model
+        model.addAttribute("curvePoints", service.getAllCurvePoints());
         return "curvePoint/list";
     }
 
@@ -29,26 +32,50 @@ public class CurveController {
 
     @PostMapping("/curvePoint/validate")
     public String validate(@Valid CurvePoint curvePoint, BindingResult result, Model model) {
-        // TODO: check data valid and save to db, after saving return Curve list
+        if (!result.hasErrors()) {
+            try {
+                service.createCurvePoint(curvePoint);
+                return "redirect:/curvePoint/list";
+            }
+            catch (Exception e) {
+                model.addAttribute("error", e.getMessage());
+            }
+        }
+        model.addAttribute("curvePoint", curvePoint);
         return "curvePoint/add";
     }
 
     @GetMapping("/curvePoint/update/{id}")
     public String showUpdateForm(@PathVariable("id") Integer id, Model model) {
-        // TODO: get CurvePoint by Id and to model then show to the form
+        model.addAttribute("curvePoint", service.getCurvePointById(id));
         return "curvePoint/update";
     }
 
     @PostMapping("/curvePoint/update/{id}")
     public String updateBid(@PathVariable("id") Integer id, @Valid CurvePoint curvePoint,
                              BindingResult result, Model model) {
-        // TODO: check required fields, if valid call service to update Curve and return Curve list
+        if (!result.hasErrors()) {
+            try {
+                curvePoint.setId(id);
+                service.updateCurvePoint(curvePoint);
+                return "redirect:/curvePoint/list";
+            }
+            catch (Exception e) {
+                model.addAttribute("error", e.getMessage());
+            }
+        }
+        model.addAttribute("curvePoint", curvePoint);
         return "redirect:/curvePoint/list";
     }
 
     @GetMapping("/curvePoint/delete/{id}")
     public String deleteBid(@PathVariable("id") Integer id, Model model) {
-        // TODO: Find Curve by Id and delete the Curve, return to Curve list
+        try {
+            service.deleteCurvePoint(id);
+        }
+        catch (Exception e) {
+            model.addAttribute("error", e.getMessage());
+        }
         return "redirect:/curvePoint/list";
     }
 }
