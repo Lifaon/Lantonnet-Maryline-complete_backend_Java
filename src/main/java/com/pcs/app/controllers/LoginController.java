@@ -1,30 +1,21 @@
 package com.pcs.app.controllers;
 
-import com.pcs.app.repositories.UserRepository;
+import com.pcs.app.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
-@RequestMapping("app")
 public class LoginController {
 
     @Autowired
-    private UserRepository userRepository;
-
-    @GetMapping("login")
-    public ModelAndView login() {
-        ModelAndView mav = new ModelAndView();
-        mav.setViewName("login");
-        return mav;
-    }
+    private UserService userService;
 
     @GetMapping("secure/article-details")
     public ModelAndView getAllUserArticles() {
         ModelAndView mav = new ModelAndView();
-        mav.addObject("users", userRepository.findAll());
+        mav.addObject("users", userService.getAllUsers());
         mav.setViewName("user/list");
         return mav;
     }

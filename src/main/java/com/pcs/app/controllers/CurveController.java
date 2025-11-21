@@ -2,6 +2,7 @@ package com.pcs.app.controllers;
 
 import com.pcs.app.domain.CurvePoint;
 import com.pcs.app.service.CurvePointService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -10,8 +11,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-
-import jakarta.validation.Valid;
 
 @Controller
 public class CurveController {
@@ -65,7 +64,7 @@ public class CurveController {
             }
         }
         model.addAttribute("curvePoint", curvePoint);
-        return "redirect:/curvePoint/list";
+        return "curvePoint/update";
     }
 
     @GetMapping("/curvePoint/delete/{id}")

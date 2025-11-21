@@ -2,6 +2,7 @@ package com.pcs.app.controllers;
 
 import com.pcs.app.domain.Rating;
 import com.pcs.app.service.RatingService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -10,8 +11,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-
-import jakarta.validation.Valid;
 
 @Controller
 public class RatingController {
@@ -65,7 +64,7 @@ public class RatingController {
             }
         }
         model.addAttribute("rating", rating);
-        return "redirect:/rating/list";
+        return "rating/update";
     }
 
     @GetMapping("/rating/delete/{id}")

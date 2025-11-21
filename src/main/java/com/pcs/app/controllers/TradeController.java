@@ -2,6 +2,7 @@ package com.pcs.app.controllers;
 
 import com.pcs.app.domain.Trade;
 import com.pcs.app.service.TradeService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -10,8 +11,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-
-import jakarta.validation.Valid;
 
 @Controller
 public class TradeController {
@@ -65,7 +64,7 @@ public class TradeController {
             }
         }
         model.addAttribute("trade", trade);
-        return "redirect:/trade/list";
+        return "trade/update";
     }
 
     @GetMapping("/trade/delete/{id}")
