@@ -8,9 +8,17 @@ import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.format.annotation.NumberFormat;
 
 import java.sql.Timestamp;
 
+/**
+ * Modèle (MVC) d'échange.
+ *
+ * @author Poseidon Capital Solutions
+ * @version 1.0
+ * @since 1.0
+ */
 @NoArgsConstructor
 @Getter
 @Setter
@@ -22,6 +30,7 @@ public class Trade {
     Integer id;
     String account;
     String type;
+    @NumberFormat
     Double buyQuantity;
     Double sellQuantity;
     Double buyPrice;

@@ -9,6 +9,13 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+/**
+ * Modèle (MVC) de nom de règle.
+ *
+ * @author Poseidon Capital Solutions
+ * @version 1.0
+ * @since 1.0
+ */
 @NoArgsConstructor
 @Getter
 @Setter

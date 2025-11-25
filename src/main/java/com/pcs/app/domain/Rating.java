@@ -8,7 +8,15 @@ import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.format.annotation.NumberFormat;
 
+/**
+ * Modèle (MVC) de taux.
+ *
+ * @author Poseidon Capital Solutions
+ * @version 1.0
+ * @since 1.0
+ */
 @NoArgsConstructor
 @Getter
 @Setter
@@ -21,6 +29,7 @@ public class Rating {
     String moodysRating;
     String sandPRating;
     String fitchRating;
+    @NumberFormat
     Integer orderNumber;
 
     public Rating(String moodysRating, String sandPRating, String fitchRating, Integer orderNumber) {

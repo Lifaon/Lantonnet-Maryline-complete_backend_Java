@@ -13,6 +13,13 @@ import lombok.Setter;
 
 import java.sql.Timestamp;
 
+/**
+ * Modèle (MVC) de liste d'offres
+ *
+ * @author Poseidon Capital Solutions
+ * @version 1.0
+ * @since 1.0
+ */
 @NoArgsConstructor
 @Getter
 @Setter

@@ -8,9 +8,17 @@ import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.format.annotation.NumberFormat;
 
 import java.sql.Timestamp;
 
+/**
+ * Modèle (MVC) de point de courbe.
+ *
+ * @author Poseidon Capital Solutions
+ * @version 1.0
+ * @since 1.0
+ */
 @NoArgsConstructor
 @Getter
 @Setter
@@ -22,7 +30,9 @@ public class CurvePoint {
     Integer id;
     Integer curveId;
     Timestamp asOfDate;
+    @NumberFormat
     Double term;
+    @NumberFormat
     Double value;
     Timestamp creationDate;
 

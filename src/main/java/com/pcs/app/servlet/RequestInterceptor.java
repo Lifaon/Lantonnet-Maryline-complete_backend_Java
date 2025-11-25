@@ -8,6 +8,10 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerInterceptor;
 
+/**
+ * Intercepte les requêtes afin de les logger, et éventuellement modifier
+ * leur status en cas d'erreur.
+ */
 @Component
 public class RequestInterceptor implements HandlerInterceptor {
 

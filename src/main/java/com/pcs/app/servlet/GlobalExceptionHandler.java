@@ -25,6 +25,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Scanner;
 
+/**
+ * Gère explicitement les exceptions non traitées par les Contrôleurs MVC
+ */
 @ControllerAdvice
 public class GlobalExceptionHandler {
 
