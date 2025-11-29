@@ -37,7 +37,6 @@ public class User implements UserDetails {
     @NotBlank(message = "Username is mandatory")
     private String username;
     @Length(min = 8, message = "Password must be at least 8 characters")
-    @Pattern(regexp = "^(?=.*[A-Za-z])(?=.*\\d)(?=.*[@$!%*#?&])[A-Za-z\\d@$!%*#?&]{8,}$", message = "Password must contain at least one letter, one number, and one symbol")
     private String password;
     @NotBlank(message = "FullName is mandatory")
     private String fullname;

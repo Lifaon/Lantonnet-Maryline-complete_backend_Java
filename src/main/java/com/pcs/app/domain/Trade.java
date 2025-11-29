@@ -5,6 +5,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -28,7 +29,9 @@ public class Trade {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     Integer id;
+    @NotBlank
     String account;
+    @NotBlank
     String type;
     @NumberFormat
     Double buyQuantity;

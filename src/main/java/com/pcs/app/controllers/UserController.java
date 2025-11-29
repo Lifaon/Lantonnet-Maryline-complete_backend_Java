@@ -11,10 +11,14 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+
+import java.util.regex.Pattern;
 
 /**
  * Contrôleur Spring MVC pour la gestion des utilisateurs (User).
@@ -61,6 +65,11 @@ public class UserController {
         return "user/add";
     }
 
+    private static Boolean validatePassword(String password) {
+        Pattern pattern = Pattern.compile("^(?=.*[A-Za-z])(?=.*\\d)(?=.*[@$!%*#?&])[A-Za-z\\d@$!%*#?&]{8,}$");
+        return pattern.matcher(password).find();
+    }
+
     /**
      * Valide et enregistre un nouvel utilisateur.
      *
@@ -72,14 +81,19 @@ public class UserController {
     @PostMapping("/user/validate")
     public String validate(@Valid User user, BindingResult result, Model model) {
         if (!result.hasErrors()) {
-            PasswordEncoder encoder = context.getBean(PasswordEncoder.class);
-            user.setPassword(encoder.encode(user.getPassword()));
-            try {
-                service.createUser(user);
-                return "redirect:/user/list";
+            if (validatePassword(user.getPassword())) {
+                PasswordEncoder encoder = context.getBean(PasswordEncoder.class);
+                user.setPassword(encoder.encode(user.getPassword()));
+                try {
+                    service.createUser(user);
+                    return "redirect:/user/list";
+                }
+                catch (Exception e) {
+                    log.error(e.getMessage());
+                }
             }
-            catch (Exception e) {
-                log.error(e.getMessage());
+            else {
+                result.addError(new FieldError("user", "password", "Password must contain at least one letter, one number, and one symbol"));
             }
         }
         model.addAttribute("user", user);
@@ -114,15 +128,20 @@ public class UserController {
     public String updateUser(@PathVariable("id") Integer id, @Valid User user,
                              BindingResult result, Model model) {
         if (!result.hasErrors()) {
-            PasswordEncoder encoder = context.getBean(PasswordEncoder.class);
-            user.setPassword(encoder.encode(user.getPassword()));
-            user.setId(id);
-            try {
-                service.updateUser(user);
-                return "redirect:/user/list";
+            if (validatePassword(user.getPassword())) {
+                PasswordEncoder encoder = context.getBean(PasswordEncoder.class);
+                user.setPassword(encoder.encode(user.getPassword()));
+                user.setId(id);
+                try {
+                    service.updateUser(user);
+                    return "redirect:/user/list";
+                }
+                catch (Exception e) {
+                    log.error(e.getMessage());
+                }
             }
-            catch (Exception e) {
-                log.error(e.getMessage());
+            else {
+                result.addError(new FieldError("user", "password", "Password must contain at least one letter, one number, and one symbol"));
             }
         }
         model.addAttribute("user", user);
